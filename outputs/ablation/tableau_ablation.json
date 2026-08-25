@@ -1,0 +1,57 @@
+[
+  {
+    "configuration": "crop",
+    "composantes": "recadrage aleatoire",
+    "epochs": 100,
+    "seed_preentrainement": 42,
+    "loss_ntxent_finale": 4.373930718348577,
+    "top1_positif_final": 0.980088141025641,
+    "accuracy_probe_moyenne": 0.5999,
+    "accuracy_probe_ecart_type": 0.0006244997998398777,
+    "nombre_seeds_probe": 3
+  },
+  {
+    "configuration": "crop_flip",
+    "composantes": "recadrage aleatoire + retournement horizontal",
+    "epochs": 100,
+    "seed_preentrainement": 42,
+    "loss_ntxent_finale": 4.3801737883152105,
+    "top1_positif_final": 0.9795372596153846,
+    "accuracy_probe_moyenne": 0.5932666666666667,
+    "accuracy_probe_ecart_type": 0.001069267662156373,
+    "nombre_seeds_probe": 3
+  },
+  {
+    "configuration": "crop_flip_jitter",
+    "composantes": "recadrage aleatoire + retournement horizontal + perturbation des couleurs",
+    "epochs": 100,
+    "seed_preentrainement": 42,
+    "loss_ntxent_finale": 4.467363462692652,
+    "top1_positif_final": 0.9167568108974359,
+    "accuracy_probe_moyenne": 0.7278666666666668,
+    "accuracy_probe_ecart_type": 0.0004041451884326935,
+    "nombre_seeds_probe": 3
+  },
+  {
+    "configuration": "complet",
+    "composantes": "recadrage aleatoire + retournement horizontal + perturbation des couleurs + niveaux de gris",
+    "epochs": 100,
+    "seed_preentrainement": 42,
+    "loss_ntxent_finale": 4.5502269744873045,
+    "top1_positif_final": 0.8047475961538462,
+    "accuracy_probe_moyenne": 0.8187000000000001,
+    "accuracy_probe_ecart_type": 0.00043588989435401935,
+    "nombre_seeds_probe": 3
+  },
+  {
+    "configuration": "complet_flou",
+    "composantes": "recadrage aleatoire + retournement horizontal + perturbation des couleurs + niveaux de gris + flou gaussien",
+    "epochs": 100,
+    "seed_preentrainement": 42,
+    "loss_ntxent_finale": 4.560093571589543,
+    "top1_positif_final": 0.7885917467948718,
+    "accuracy_probe_moyenne": 0.8156,
+    "accuracy_probe_ecart_type": 0.00026457513110642993,
+    "nombre_seeds_probe": 3
+  }
+]

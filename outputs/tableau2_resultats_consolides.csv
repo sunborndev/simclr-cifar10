@@ -1,0 +1,13 @@
+methode,protocole,poids_entrainables,fraction_labels,nombre_labels,accuracy_test_moyenne_pct,ecart_type_pct,nombre_seeds
+Encodeur aleatoire gele,controle diagnostic,~5 130,0.01,450,25.66,1.18,3
+Encodeur aleatoire gele,controle diagnostic,~5 130,0.1,4500,33.25,0.46,3
+Encodeur aleatoire gele,controle diagnostic,~5 130,1.0,45000,42.3,0.02,3
+Linear probe SimCLR,encodeur gele,~5 130,0.01,450,72.0,0.4,3
+Linear probe SimCLR,encodeur gele,~5 130,0.1,4500,78.83,0.22,3
+Linear probe SimCLR,encodeur gele,~5 130,1.0,45000,81.87,0.04,3
+Fine-tuning SimCLR,encodeur libre,"~11,2 M",0.01,450,72.1,0.86,3
+Fine-tuning SimCLR,encodeur libre,"~11,2 M",0.1,4500,82.71,0.35,3
+Fine-tuning SimCLR,encodeur libre,"~11,2 M",1.0,45000,93.56,0.09,3
+Supervise from scratch,baseline concurrente,"~11,2 M",0.01,450,39.52,0.58,3
+Supervise from scratch,baseline concurrente,"~11,2 M",0.1,4500,70.25,0.56,3
+Supervise from scratch,baseline concurrente,"~11,2 M",1.0,45000,93.13,0.08,3

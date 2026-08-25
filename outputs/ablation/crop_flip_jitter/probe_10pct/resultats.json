@@ -1,0 +1,109 @@
+{
+  "configuration": {
+    "checkpoint": "outputs\\ablation\\crop_flip_jitter\\checkpoint_latest.pt",
+    "fractions": [
+      0.1
+    ],
+    "seeds": [
+      42,
+      123,
+      2026
+    ],
+    "epochs": 50,
+    "learning_rate": 0.1,
+    "standardiser_h": true,
+    "scheduler_cosinus": true,
+    "initialisation_zero": true,
+    "nombre_validation": 5000,
+    "seed_split": 7,
+    "evaluer_sur": "test",
+    "nombre_train_total": 45000,
+    "nombre_evaluation": 10000
+  },
+  "resultats": [
+    {
+      "encodeur": "aleatoire",
+      "fraction_labels": 0.1,
+      "nombre_labels": 4500,
+      "seed": 42,
+      "loss_train": 1.1193216109805637,
+      "accuracy_train": 0.6204444444444445,
+      "accuracy_evaluation": 0.3377,
+      "ensemble_evaluation": "test",
+      "duree_probe_secondes": 5.679701799992472
+    },
+    {
+      "encodeur": "aleatoire",
+      "fraction_labels": 0.1,
+      "nombre_labels": 4500,
+      "seed": 123,
+      "loss_train": 1.0965922474331327,
+      "accuracy_train": 0.6266666666666667,
+      "accuracy_evaluation": 0.3292,
+      "ensemble_evaluation": "test",
+      "duree_probe_secondes": 5.297981100040488
+    },
+    {
+      "encodeur": "aleatoire",
+      "fraction_labels": 0.1,
+      "nombre_labels": 4500,
+      "seed": 2026,
+      "loss_train": 1.0560188483132256,
+      "accuracy_train": 0.642,
+      "accuracy_evaluation": 0.3306,
+      "ensemble_evaluation": "test",
+      "duree_probe_secondes": 5.140196799999103
+    },
+    {
+      "encodeur": "simclr",
+      "fraction_labels": 0.1,
+      "nombre_labels": 4500,
+      "seed": 42,
+      "loss_train": 0.46304714330037433,
+      "accuracy_train": 0.8471111111111111,
+      "accuracy_evaluation": 0.6787,
+      "ensemble_evaluation": "test",
+      "duree_probe_secondes": 4.112579500069842
+    },
+    {
+      "encodeur": "simclr",
+      "fraction_labels": 0.1,
+      "nombre_labels": 4500,
+      "seed": 123,
+      "loss_train": 0.47977999244795905,
+      "accuracy_train": 0.8382222222222222,
+      "accuracy_evaluation": 0.68,
+      "ensemble_evaluation": "test",
+      "duree_probe_secondes": 3.9526038999902084
+    },
+    {
+      "encodeur": "simclr",
+      "fraction_labels": 0.1,
+      "nombre_labels": 4500,
+      "seed": 2026,
+      "loss_train": 0.4756890399720934,
+      "accuracy_train": 0.8402222222222222,
+      "accuracy_evaluation": 0.686,
+      "ensemble_evaluation": "test",
+      "duree_probe_secondes": 4.010295799933374
+    }
+  ],
+  "resume": [
+    {
+      "encodeur": "aleatoire",
+      "fraction_labels": 0.1,
+      "nombre_labels": 4500,
+      "nombre_seeds": 3,
+      "accuracy_moyenne": 0.3325,
+      "accuracy_ecart_type": 0.004557411546042338
+    },
+    {
+      "encodeur": "simclr",
+      "fraction_labels": 0.1,
+      "nombre_labels": 4500,
+      "nombre_seeds": 3,
+      "accuracy_moyenne": 0.6815666666666668,
+      "accuracy_ecart_type": 0.0038940124978399317
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+configuration,composantes,epochs,seed_preentrainement,loss_ntxent_finale,top1_positif_final,accuracy_probe_moyenne,accuracy_probe_ecart_type,nombre_seeds_probe
+crop,recadrage aleatoire,100,42,4.373930718348577,0.980088141025641,0.5999,0.0006244997998398777,3
+crop_flip,recadrage aleatoire + retournement horizontal,100,42,4.3801737883152105,0.9795372596153846,0.5932666666666667,0.001069267662156373,3
+crop_flip_jitter,recadrage aleatoire + retournement horizontal + perturbation des couleurs,100,42,4.467363462692652,0.9167568108974359,0.7278666666666668,0.0004041451884326935,3
+complet,recadrage aleatoire + retournement horizontal + perturbation des couleurs + niveaux de gris,100,42,4.5502269744873045,0.8047475961538462,0.8187000000000001,0.00043588989435401935,3
+complet_flou,recadrage aleatoire + retournement horizontal + perturbation des couleurs + niveaux de gris + flou gaussien,100,42,4.560093571589543,0.7885917467948718,0.8156,0.00026457513110642993,3
