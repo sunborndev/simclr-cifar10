@@ -1,0 +1,21 @@
+# Projet 10 — SSL contrastif (SimCLR) sur CIFAR-10
+# Installation :  pip install -r requirements.txt
+#
+# PyTorch : la commande ci-dessous installe la version CPU. Pour une carte
+# NVIDIA, suivre https://pytorch.org/get-started/locally/ (choisir la version
+# CUDA correspondant au pilote) AVANT d'installer le reste.
+
+torch>=2.0
+torchvision>=0.15
+
+# --- évaluation et projections ---------------------------------------
+scikit-learn>=1.3        # t-SNE et PCA de l'application de démonstration
+numpy>=1.24
+
+# --- images et figures ------------------------------------------------
+Pillow>=10.0             # requis par torchvision pour lire CIFAR-10
+matplotlib>=3.7          # figures du rapport (tools/fig_*.py)
+
+# --- optionnel --------------------------------------------------------
+# umap-learn>=0.5        # projection UMAP alternative au t-SNE
+# mlflow>=2.9            # suivi d'expériences (scripts/mlflow_journaliser.py)
