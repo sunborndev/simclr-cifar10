@@ -1,0 +1,65 @@
+# =====================================================================
+#  .gitignore — Projet 10, SSL contrastif (SimCLR) sur CIFAR-10
+#
+#  Principe : on exclut ce qui est LOURD ou RETÉLÉCHARGEABLE,
+#  on garde tout ce qui permet de VÉRIFIER un résultat sans GPU.
+# =====================================================================
+
+# --- environnement Python -------------------------------------------
+.venv/
+venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# --- données : 341 Mo, retéléchargées automatiquement au premier run --
+data/
+
+# --- poids des modèles : 132 Mo pièce, au-dessus de la limite GitHub --
+# Le checkpoint principal est distribué par une release GitHub.
+*.pt
+*.pth
+
+# --- suivi d'expériences MLflow : volumineux et redondant avec outputs/
+mlflow.db
+mlartifacts/
+mlruns/
+
+# --- journaux de terminal (contiennent des chemins absolus) ----------
+*PowerShell*.txt
+*.log
+
+# =====================================================================
+#  outputs/ : on exclut tout PUIS on ré-inclut les fichiers légers.
+#  Sans cette exception, les tableaux du rapport ne seraient pas
+#  vérifiables sans relancer sept heures de calcul.
+# =====================================================================
+outputs/*
+!outputs/*/
+!outputs/**/*.csv
+!outputs/**/*.json
+!outputs/**/*.svg
+!outputs/**/*.png
+!outputs/*.csv
+!outputs/*.json
+!outputs/*.png
+
+# sorties des tests rapides : sans intérêt pour la relecture
+outputs/_smoke*/
+outputs/*smoke*/
+outputs/*_demo/
+outputs/evaluation_lineaire_demo.json
+outputs/evaluation_lineaire_*smoke*.json
+
+# --- fichiers de compilation LaTeX -----------------------------------
+*.aux
+*.out
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+docs/**/*.log
+
+# --- système ---------------------------------------------------------
+.DS_Store
+Thumbs.db
