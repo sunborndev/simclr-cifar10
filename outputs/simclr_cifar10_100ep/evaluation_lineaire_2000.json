@@ -1,0 +1,23 @@
+{
+  "configuration": {
+    "checkpoint": "outputs\\simclr_cifar10_100ep\\checkpoint_latest.pt",
+    "nombre_train": 2000,
+    "nombre_test": 10000,
+    "epochs": 50,
+    "learning_rate": 0.1,
+    "seed": 42
+  },
+  "resnet_aleatoire": {
+    "loss_train": 44.90073229980469,
+    "accuracy_train": 0.109,
+    "accuracy_test": 0.1103,
+    "duree_secondes": 9.084407900001679
+  },
+  "resnet_simclr": {
+    "loss_train": 0.5321095638275146,
+    "accuracy_train": 0.867,
+    "accuracy_test": 0.7423,
+    "duree_secondes": 8.178554999998596
+  },
+  "gain_test_points": 63.2
+}

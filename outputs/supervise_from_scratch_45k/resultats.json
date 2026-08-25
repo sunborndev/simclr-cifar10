@@ -1,0 +1,160 @@
+{
+  "configuration": {
+    "methode": "supervise_from_scratch",
+    "checkpoint_simclr": null,
+    "fractions": [
+      0.01,
+      0.1,
+      1.0
+    ],
+    "seeds": [
+      42,
+      123,
+      2026
+    ],
+    "epochs": 100,
+    "batch_size": 256,
+    "learning_rate": 0.03,
+    "min_learning_rate": 0.0001,
+    "momentum": 0.9,
+    "weight_decay": 0.0005,
+    "mixed_precision": true,
+    "nombre_validation": 5000,
+    "seed_split": 7,
+    "evaluer_sur": "test",
+    "nombre_train_total": 45000,
+    "nombre_evaluation": 10000,
+    "max_batches": null,
+    "augmentation_train": "RandomCrop(32, padding=4) + RandomHorizontalFlip"
+  },
+  "resultats": [
+    {
+      "methode": "supervise_from_scratch",
+      "fraction_labels": 0.01,
+      "nombre_labels": 450,
+      "seed": 42,
+      "loss_train": 0.00798024362574021,
+      "accuracy_train": 1.0,
+      "accuracy_evaluation": 0.3943,
+      "ensemble_evaluation": "test",
+      "duree_secondes": 72.30929830000969
+    },
+    {
+      "methode": "supervise_from_scratch",
+      "fraction_labels": 0.1,
+      "nombre_labels": 4500,
+      "seed": 42,
+      "loss_train": 0.0028287668745550845,
+      "accuracy_train": 0.9997777777777778,
+      "accuracy_evaluation": 0.6978,
+      "ensemble_evaluation": "test",
+      "duree_secondes": 194.7215739999956
+    },
+    {
+      "methode": "supervise_from_scratch",
+      "fraction_labels": 1.0,
+      "nombre_labels": 45000,
+      "seed": 42,
+      "loss_train": 0.0014029269959984555,
+      "accuracy_train": 1.0,
+      "accuracy_evaluation": 0.9316,
+      "ensemble_evaluation": "test",
+      "duree_secondes": 1413.5541024999984
+    },
+    {
+      "methode": "supervise_from_scratch",
+      "fraction_labels": 0.01,
+      "nombre_labels": 450,
+      "seed": 123,
+      "loss_train": 0.009526930273407036,
+      "accuracy_train": 1.0,
+      "accuracy_evaluation": 0.3898,
+      "ensemble_evaluation": "test",
+      "duree_secondes": 61.572225299983984
+    },
+    {
+      "methode": "supervise_from_scratch",
+      "fraction_labels": 0.1,
+      "nombre_labels": 4500,
+      "seed": 123,
+      "loss_train": 0.0021532595672955116,
+      "accuracy_train": 1.0,
+      "accuracy_evaluation": 0.7087,
+      "ensemble_evaluation": "test",
+      "duree_secondes": 180.57021710000117
+    },
+    {
+      "methode": "supervise_from_scratch",
+      "fraction_labels": 1.0,
+      "nombre_labels": 45000,
+      "seed": 123,
+      "loss_train": 0.0013662891678926019,
+      "accuracy_train": 0.9999777777777777,
+      "accuracy_evaluation": 0.9304,
+      "ensemble_evaluation": "test",
+      "duree_secondes": 2104.3262327999983
+    },
+    {
+      "methode": "supervise_from_scratch",
+      "fraction_labels": 0.01,
+      "nombre_labels": 450,
+      "seed": 2026,
+      "loss_train": 0.007909373024271594,
+      "accuracy_train": 1.0,
+      "accuracy_evaluation": 0.4014,
+      "ensemble_evaluation": "test",
+      "duree_secondes": 832.6279245000042
+    },
+    {
+      "methode": "supervise_from_scratch",
+      "fraction_labels": 0.1,
+      "nombre_labels": 4500,
+      "seed": 2026,
+      "loss_train": 0.0028939252466791206,
+      "accuracy_train": 1.0,
+      "accuracy_evaluation": 0.701,
+      "ensemble_evaluation": "test",
+      "duree_secondes": 5055.930081800005
+    },
+    {
+      "methode": "supervise_from_scratch",
+      "fraction_labels": 1.0,
+      "nombre_labels": 45000,
+      "seed": 2026,
+      "loss_train": 0.0014206504369154572,
+      "accuracy_train": 1.0,
+      "accuracy_evaluation": 0.9318,
+      "ensemble_evaluation": "test",
+      "duree_secondes": 11913.991318099987
+    }
+  ],
+  "resume": [
+    {
+      "methode": "supervise_from_scratch",
+      "ensemble_evaluation": "test",
+      "fraction_labels": 0.01,
+      "nombre_labels": 450,
+      "nombre_seeds": 3,
+      "accuracy_moyenne": 0.39516666666666667,
+      "accuracy_ecart_type": 0.005848361593928109
+    },
+    {
+      "methode": "supervise_from_scratch",
+      "ensemble_evaluation": "test",
+      "fraction_labels": 0.1,
+      "nombre_labels": 4500,
+      "nombre_seeds": 3,
+      "accuracy_moyenne": 0.7025,
+      "accuracy_ecart_type": 0.00560267793113259
+    },
+    {
+      "methode": "supervise_from_scratch",
+      "ensemble_evaluation": "test",
+      "fraction_labels": 1.0,
+      "nombre_labels": 45000,
+      "nombre_seeds": 3,
+      "accuracy_moyenne": 0.9312666666666667,
+      "accuracy_ecart_type": 0.0007571877794400166
+    }
+  ]
+}

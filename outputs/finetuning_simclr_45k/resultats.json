@@ -1,0 +1,160 @@
+{
+  "configuration": {
+    "methode": "finetuning_simclr",
+    "checkpoint_simclr": "outputs\\simclr_cifar10_100ep\\checkpoint_latest.pt",
+    "fractions": [
+      0.01,
+      0.1,
+      1.0
+    ],
+    "seeds": [
+      42,
+      123,
+      2026
+    ],
+    "epochs": 100,
+    "batch_size": 256,
+    "learning_rate": 0.03,
+    "min_learning_rate": 0.0001,
+    "momentum": 0.9,
+    "weight_decay": 0.0005,
+    "mixed_precision": true,
+    "nombre_validation": 5000,
+    "seed_split": 7,
+    "evaluer_sur": "test",
+    "nombre_train_total": 45000,
+    "nombre_evaluation": 10000,
+    "max_batches": null,
+    "augmentation_train": "RandomCrop(32, padding=4) + RandomHorizontalFlip"
+  },
+  "resultats": [
+    {
+      "methode": "finetuning_simclr",
+      "fraction_labels": 0.01,
+      "nombre_labels": 450,
+      "seed": 42,
+      "loss_train": 0.008993549338645405,
+      "accuracy_train": 1.0,
+      "accuracy_evaluation": 0.7294,
+      "ensemble_evaluation": "test",
+      "duree_secondes": 63.79522800000268
+    },
+    {
+      "methode": "finetuning_simclr",
+      "fraction_labels": 0.1,
+      "nombre_labels": 4500,
+      "seed": 42,
+      "loss_train": 0.004080941140237782,
+      "accuracy_train": 1.0,
+      "accuracy_evaluation": 0.8231,
+      "ensemble_evaluation": "test",
+      "duree_secondes": 204.57518000001437
+    },
+    {
+      "methode": "finetuning_simclr",
+      "fraction_labels": 1.0,
+      "nombre_labels": 45000,
+      "seed": 42,
+      "loss_train": 0.0017715291156950924,
+      "accuracy_train": 1.0,
+      "accuracy_evaluation": 0.935,
+      "ensemble_evaluation": "test",
+      "duree_secondes": 1763.054035100009
+    },
+    {
+      "methode": "finetuning_simclr",
+      "fraction_labels": 0.01,
+      "nombre_labels": 450,
+      "seed": 123,
+      "loss_train": 0.010463537089526654,
+      "accuracy_train": 1.0,
+      "accuracy_evaluation": 0.7123,
+      "ensemble_evaluation": "test",
+      "duree_secondes": 50.20367020001868
+    },
+    {
+      "methode": "finetuning_simclr",
+      "fraction_labels": 0.1,
+      "nombre_labels": 4500,
+      "seed": 123,
+      "loss_train": 0.0036726897598968614,
+      "accuracy_train": 1.0,
+      "accuracy_evaluation": 0.8298,
+      "ensemble_evaluation": "test",
+      "duree_secondes": 181.0694279000163
+    },
+    {
+      "methode": "finetuning_simclr",
+      "fraction_labels": 1.0,
+      "nombre_labels": 45000,
+      "seed": 123,
+      "loss_train": 0.0017192923117015097,
+      "accuracy_train": 1.0,
+      "accuracy_evaluation": 0.9352,
+      "ensemble_evaluation": "test",
+      "duree_secondes": 1438.4016685999813
+    },
+    {
+      "methode": "finetuning_simclr",
+      "fraction_labels": 0.01,
+      "nombre_labels": 450,
+      "seed": 2026,
+      "loss_train": 0.013272823389205667,
+      "accuracy_train": 1.0,
+      "accuracy_evaluation": 0.7213,
+      "ensemble_evaluation": "test",
+      "duree_secondes": 75.92139689999749
+    },
+    {
+      "methode": "finetuning_simclr",
+      "fraction_labels": 0.1,
+      "nombre_labels": 4500,
+      "seed": 2026,
+      "loss_train": 0.004182734138021866,
+      "accuracy_train": 1.0,
+      "accuracy_evaluation": 0.8284,
+      "ensemble_evaluation": "test",
+      "duree_secondes": 173.52488230000017
+    },
+    {
+      "methode": "finetuning_simclr",
+      "fraction_labels": 1.0,
+      "nombre_labels": 45000,
+      "seed": 2026,
+      "loss_train": 0.0016804358245390985,
+      "accuracy_train": 1.0,
+      "accuracy_evaluation": 0.9367,
+      "ensemble_evaluation": "test",
+      "duree_secondes": 1512.3094306999992
+    }
+  ],
+  "resume": [
+    {
+      "methode": "finetuning_simclr",
+      "ensemble_evaluation": "test",
+      "fraction_labels": 0.01,
+      "nombre_labels": 450,
+      "nombre_seeds": 3,
+      "accuracy_moyenne": 0.7210000000000001,
+      "accuracy_ecart_type": 0.008553946457629955
+    },
+    {
+      "methode": "finetuning_simclr",
+      "ensemble_evaluation": "test",
+      "fraction_labels": 0.1,
+      "nombre_labels": 4500,
+      "nombre_seeds": 3,
+      "accuracy_moyenne": 0.8271000000000001,
+      "accuracy_ecart_type": 0.0035341194094144256
+    },
+    {
+      "methode": "finetuning_simclr",
+      "ensemble_evaluation": "test",
+      "fraction_labels": 1.0,
+      "nombre_labels": 45000,
+      "nombre_seeds": 3,
+      "accuracy_moyenne": 0.9356333333333334,
+      "accuracy_ecart_type": 0.0009291573243177183
+    }
+  ]
+}
