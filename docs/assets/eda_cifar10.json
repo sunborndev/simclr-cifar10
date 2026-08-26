@@ -1,0 +1,113 @@
+{
+ "classes": [
+  "airplane",
+  "automobile",
+  "bird",
+  "cat",
+  "deer",
+  "dog",
+  "frog",
+  "horse",
+  "ship",
+  "truck"
+ ],
+ "effectifs_train": {
+  "airplane": 5000,
+  "automobile": 5000,
+  "bird": 5000,
+  "cat": 5000,
+  "deer": 5000,
+  "dog": 5000,
+  "frog": 5000,
+  "horse": 5000,
+  "ship": 5000,
+  "truck": 5000
+ },
+ "effectifs_test": {
+  "airplane": 1000,
+  "automobile": 1000,
+  "bird": 1000,
+  "cat": 1000,
+  "deer": 1000,
+  "dog": 1000,
+  "frog": 1000,
+  "horse": 1000,
+  "ship": 1000,
+  "truck": 1000
+ },
+ "moyenne_canaux": [
+  0.4914,
+  0.4822,
+  0.4465
+ ],
+ "ecart_type_canaux": [
+  0.247,
+  0.2435,
+  0.2616
+ ],
+ "couleur_moyenne_par_classe": {
+  "airplane": [
+   134.0,
+   142.9,
+   150.2
+  ],
+  "automobile": [
+   120.2,
+   115.9,
+   114.0
+  ],
+  "bird": [
+   124.8,
+   125.3,
+   108.1
+  ],
+  "cat": [
+   126.3,
+   116.4,
+   106.0
+  ],
+  "deer": [
+   120.3,
+   118.6,
+   96.4
+  ],
+  "dog": [
+   127.5,
+   118.5,
+   106.2
+  ],
+  "frog": [
+   119.9,
+   111.8,
+   88.0
+  ],
+  "horse": [
+   128.0,
+   122.4,
+   106.3
+  ],
+  "ship": [
+   125.0,
+   134.0,
+   141.4
+  ],
+  "truck": [
+   127.2,
+   123.8,
+   121.9
+  ]
+ },
+ "dispersion_couleur_intra_classe": {
+  "airplane": 39.1,
+  "automobile": 32.7,
+  "bird": 37.0,
+  "cat": 34.6,
+  "deer": 30.8,
+  "dog": 30.7,
+  "frog": 33.1,
+  "horse": 28.0,
+  "ship": 30.6,
+  "truck": 27.6
+ },
+ "dispersion_couleur_inter_classe": 10.4
+}

@@ -1,0 +1,24 @@
+{
+ "crop": {
+  "libelle": "crop seul",
+  "top1_couleur_seule": 51.9,
+  "distance_positifs": 0.3037,
+  "distance_negatifs": 0.9187,
+  "ratio": 3.02
+ },
+ "jitter": {
+  "libelle": "crop + color jitter",
+  "top1_couleur_seule": 6.1,
+  "distance_positifs": 0.7621,
+  "distance_negatifs": 1.0254,
+  "ratio": 1.35
+ },
+ "complet": {
+  "libelle": "crop + jitter + niveaux de gris",
+  "top1_couleur_seule": 3.8,
+  "distance_positifs": 0.7808,
+  "distance_negatifs": 1.0236,
+  "ratio": 1.31
+ },
+ "_note": "Appariement par histogramme de couleur 3x8 bins, distance L1, 2000 images de data_batch_1, graine 7. Aucun reseau de neurones : c'est une propriete des DONNEES et des augmentations, pas du modele."
+}

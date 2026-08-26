@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="600" viewBox="0 0 1000 600" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <rect width="1000" height="600" fill="#ffffff"/>
+
+  <text x="38" y="36" font-size="21" font-weight="700" fill="#0f172a">La boucle d'entraînement — les 5 gestes répétés 17 500 fois</text>
+  <text x="38" y="58" font-size="13" fill="#475569">Un tour complet = une itération = un pas dans la vallée. 175 tours par epoch, 100 epochs.</text>
+
+  <defs>
+    <marker id="fleche" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#64748b"/>
+    </marker>
+    <marker id="flecheRetour" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#1e3a8a"/>
+    </marker>
+  </defs>
+
+  <!-- ETAPE 1 -->
+  <rect x="38" y="96" width="165" height="176" rx="7" fill="#eff6ff" stroke="#1e3a8a" stroke-width="1.6"/>
+  <circle cx="62" cy="120" r="13" fill="#1e3a8a"/>
+  <text x="62" y="125" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">1</text>
+  <text x="84" y="125" font-size="13.5" font-weight="700" fill="#1e3a8a">Prendre</text>
+  <text x="84" y="141" font-size="13.5" font-weight="700" fill="#1e3a8a">un batch</text>
+  <text x="54" y="168" font-size="11.5" fill="#334155">On sort 256 images</text>
+  <text x="54" y="184" font-size="11.5" fill="#334155">du paquet, avec</text>
+  <text x="54" y="200" font-size="11.5" fill="#334155">leurs réponses.</text>
+  <rect x="50" y="216" width="141" height="42" rx="4" fill="#1e293b"/>
+  <text x="60" y="232" font-size="9.5" fill="#93c5fd" font-family="Consolas, monospace">for images,</text>
+  <text x="60" y="245" font-size="9.5" fill="#93c5fd" font-family="Consolas, monospace">    etiquettes</text>
+  <text x="60" y="255" font-size="9.5" fill="#93c5fd" font-family="Consolas, monospace">    in train_loader</text>
+
+  <path d="M 206 184 L 224 184" stroke="#64748b" stroke-width="2" marker-end="url(#fleche)"/>
+
+  <!-- ETAPE 2 -->
+  <rect x="228" y="96" width="165" height="176" rx="7" fill="#eff6ff" stroke="#1e3a8a" stroke-width="1.6"/>
+  <circle cx="252" cy="120" r="13" fill="#1e3a8a"/>
+  <text x="252" y="125" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">2</text>
+  <text x="274" y="125" font-size="13.5" font-weight="700" fill="#1e3a8a">Le modèle</text>
+  <text x="274" y="141" font-size="13.5" font-weight="700" fill="#1e3a8a">répond</text>
+  <text x="244" y="168" font-size="11.5" fill="#334155">Les images traversent</text>
+  <text x="244" y="184" font-size="11.5" fill="#334155">les 11 millions de</text>
+  <text x="244" y="200" font-size="11.5" fill="#334155">boutons. 10 probas.</text>
+  <rect x="240" y="216" width="141" height="42" rx="4" fill="#1e293b"/>
+  <text x="250" y="238" font-size="9.5" fill="#93c5fd" font-family="Consolas, monospace">scores =</text>
+  <text x="250" y="251" font-size="9.5" fill="#93c5fd" font-family="Consolas, monospace">    modele(images)</text>
+
+  <path d="M 396 184 L 414 184" stroke="#64748b" stroke-width="2" marker-end="url(#fleche)"/>
+
+  <!-- ETAPE 3 -->
+  <rect x="418" y="96" width="165" height="176" rx="7" fill="#fffbeb" stroke="#b45309" stroke-width="1.6"/>
+  <circle cx="442" cy="120" r="13" fill="#b45309"/>
+  <text x="442" y="125" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">3</text>
+  <text x="464" y="125" font-size="13.5" font-weight="700" fill="#b45309">La loss</text>
+  <text x="464" y="141" font-size="13.5" font-weight="700" fill="#b45309">note l'erreur</text>
+  <text x="434" y="168" font-size="11.5" fill="#334155">Un seul chiffre.</text>
+  <text x="434" y="184" font-size="11.5" fill="#334155">2,30 = au hasard.</text>
+  <text x="434" y="200" font-size="11.5" fill="#334155">0,00 = parfait.</text>
+  <rect x="430" y="216" width="141" height="42" rx="4" fill="#1e293b"/>
+  <text x="440" y="238" font-size="9.5" fill="#fcd34d" font-family="Consolas, monospace">loss = fonction_loss(</text>
+  <text x="440" y="251" font-size="9.5" fill="#fcd34d" font-family="Consolas, monospace">  scores, etiquettes)</text>
+
+  <path d="M 586 184 L 604 184" stroke="#64748b" stroke-width="2" marker-end="url(#fleche)"/>
+
+  <!-- ETAPE 4 -->
+  <rect x="608" y="96" width="165" height="176" rx="7" fill="#f5f3ff" stroke="#6d28d9" stroke-width="1.6"/>
+  <circle cx="632" cy="120" r="13" fill="#6d28d9"/>
+  <text x="632" y="125" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">4</text>
+  <text x="654" y="125" font-size="13.5" font-weight="700" fill="#6d28d9">Backprop :</text>
+  <text x="654" y="141" font-size="13.5" font-weight="700" fill="#6d28d9">les pentes</text>
+  <text x="624" y="168" font-size="11.5" fill="#334155">On remonte la chaîne</text>
+  <text x="624" y="184" font-size="11.5" fill="#334155">à l'envers. Chaque</text>
+  <text x="624" y="200" font-size="11.5" fill="#334155">bouton a sa pente.</text>
+  <rect x="620" y="216" width="141" height="42" rx="4" fill="#1e293b"/>
+  <text x="630" y="243" font-size="9.5" fill="#c4b5fd" font-family="Consolas, monospace">loss.backward()</text>
+
+  <path d="M 776 184 L 794 184" stroke="#64748b" stroke-width="2" marker-end="url(#fleche)"/>
+
+  <!-- ETAPE 5 -->
+  <rect x="798" y="96" width="165" height="176" rx="7" fill="#ecfdf5" stroke="#047857" stroke-width="1.6"/>
+  <circle cx="822" cy="120" r="13" fill="#047857"/>
+  <text x="822" y="125" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">5</text>
+  <text x="844" y="125" font-size="13.5" font-weight="700" fill="#047857">L'optimizer</text>
+  <text x="844" y="141" font-size="13.5" font-weight="700" fill="#047857">tourne</text>
+  <text x="814" y="168" font-size="11.5" fill="#334155">Un pas dans le sens</text>
+  <text x="814" y="184" font-size="11.5" fill="#334155">de la descente. Taille</text>
+  <text x="814" y="200" font-size="11.5" fill="#334155">du pas = learning rate.</text>
+  <rect x="810" y="216" width="141" height="42" rx="4" fill="#1e293b"/>
+  <text x="820" y="243" font-size="9.5" fill="#6ee7b7" font-family="Consolas, monospace">optimiseur.step()</text>
+
+  <!-- boucle retour -->
+  <path d="M 880 276 L 880 308 L 120 308 L 120 276" stroke="#1e3a8a" stroke-width="2.2" fill="none" marker-end="url(#flecheRetour)"/>
+  <rect x="380" y="294" width="240" height="28" rx="14" fill="#1e3a8a"/>
+  <text x="500" y="313" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle">et on recommence — 17 500 fois</text>
+
+  <!-- BANDE ARITHMETIQUE -->
+  <rect x="38" y="352" width="925" height="90" rx="7" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="58" y="376" font-size="13" font-weight="700" fill="#0f172a">L'arithmétique de ton entraînement à 100 % des labels</text>
+  <text x="58" y="401" font-size="12.5" fill="#334155">45 000 images  ÷  256 par batch  =  <tspan font-weight="700" fill="#1e3a8a">175 batches</tspan>, soit 175 pas pour une seule epoch</text>
+  <text x="58" y="424" font-size="12.5" fill="#334155">175 pas  ×  100 epochs  =  <tspan font-weight="700" fill="#1e3a8a">17 500 pas</tspan>  —  chacun ne déplace les boutons que d'un cheveu</text>
+
+  <!-- BANDE VOCABULAIRE -->
+  <rect x="38" y="458" width="925" height="122" rx="7" fill="#f0f9ff" stroke="#0369a1" stroke-width="1.4"/>
+  <text x="58" y="482" font-size="13" font-weight="700" fill="#0c4a6e">La vallée dans le brouillard — la correspondance exacte</text>
+
+  <text x="58" y="508" font-size="12" font-weight="700" fill="#0369a1">l'altitude</text>
+  <text x="150" y="508" font-size="12" fill="#334155">→  la <tspan font-weight="700">loss</tspan> : plus tu es haut, plus tu te trompes</text>
+  <text x="58" y="530" font-size="12" font-weight="700" fill="#0369a1">la pente sous tes pieds</text>
+  <text x="230" y="530" font-size="12" fill="#334155">→  le <tspan font-weight="700">gradient</tspan> : dans quel sens et avec quelle force tourner chaque bouton</text>
+  <text x="58" y="552" font-size="12" font-weight="700" fill="#0369a1">la taille de tes pas</text>
+  <text x="200" y="552" font-size="12" fill="#334155">→  le <tspan font-weight="700">learning rate</tspan> : tu as mesuré que 0,03 était la bonne taille</text>
+  <text x="58" y="574" font-size="12" font-weight="700" fill="#0369a1">le fond de la vallée</text>
+  <text x="200" y="574" font-size="12" fill="#334155">→  les 11 millions de boutons bien réglés : le modèle a appris</text>
+</svg>

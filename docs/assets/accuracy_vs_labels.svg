@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="690" viewBox="0 0 940 690" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <rect width="940" height="690" fill="#ffffff"/>
+
+  <text x="60" y="34" font-size="19.5" font-weight="700" fill="#0f172a">Le préentraînement réduit surtout le besoin de labels</text>
+  <text x="60" y="55" font-size="12" fill="#475569">Accuracy sur les 10 000 images de test officielles. Moyenne de 3 graines (42, 123, 2026), barres = écart-type.</text>
+  <text x="60" y="72" font-size="12" fill="#475569">Les quatre méthodes partagent le même découpage (45 000 / 5 000), les mêmes sous-ensembles et le même protocole.</text>
+
+  <!-- grille -->
+  <g stroke="#e2e8f0" stroke-width="1">
+    <line x1="130" y1="470" x2="850" y2="470"/><line x1="130" y1="422.5" x2="850" y2="422.5"/>
+    <line x1="130" y1="375" x2="850" y2="375"/><line x1="130" y1="327.5" x2="850" y2="327.5"/>
+    <line x1="130" y1="280" x2="850" y2="280"/><line x1="130" y1="232.5" x2="850" y2="232.5"/>
+    <line x1="130" y1="185" x2="850" y2="185"/><line x1="130" y1="137.5" x2="850" y2="137.5"/>
+    <line x1="130" y1="90" x2="850" y2="90"/>
+  </g>
+  <g font-size="11" fill="#64748b" text-anchor="end">
+    <text x="120" y="474">20 %</text><text x="120" y="426.5">30 %</text><text x="120" y="379">40 %</text>
+    <text x="120" y="331.5">50 %</text><text x="120" y="284">60 %</text><text x="120" y="236.5">70 %</text>
+    <text x="120" y="189">80 %</text><text x="120" y="141.5">90 %</text><text x="120" y="94">100 %</text>
+  </g>
+  <text x="44" y="280" font-size="12" font-weight="600" fill="#334155" transform="rotate(-90 44 280)" text-anchor="middle">Accuracy de test</text>
+
+  <line x1="130" y1="90" x2="130" y2="470" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="130" y1="470" x2="850" y2="470" stroke="#94a3b8" stroke-width="1.5"/>
+
+  <g font-size="12" fill="#334155" text-anchor="middle">
+    <text x="130" y="492" font-weight="700">1 %</text><text x="130" y="507" font-size="10.5" fill="#64748b">450 labels</text>
+    <text x="490" y="492" font-weight="700">10 %</text><text x="490" y="507" font-size="10.5" fill="#64748b">4 500 labels</text>
+    <text x="850" y="492" font-weight="700">100 %</text><text x="850" y="507" font-size="10.5" fill="#64748b">45 000 labels</text>
+  </g>
+  <text x="490" y="530" font-size="12" font-weight="600" fill="#334155" text-anchor="middle">Part des images étiquetées utilisée (échelle logarithmique)</text>
+
+  <!-- encodeur aleatoire gele : controle -->
+  <polyline points="130,443.1 490,407.1 850,364.1" fill="none" stroke="#64748b" stroke-width="2" stroke-dasharray="3 4"/>
+  <g fill="#64748b">
+    <rect x="126" y="439.1" width="8" height="8"/><rect x="486" y="403.1" width="8" height="8"/><rect x="846" y="360.1" width="8" height="8"/>
+  </g>
+  <g font-size="10.5" fill="#64748b">
+    <text x="146" y="448">25,66 %</text><text x="490" y="425" text-anchor="middle">33,25 %</text><text x="836" y="382" text-anchor="end">42,30 %</text>
+  </g>
+
+  <!-- supervise from scratch -->
+  <polyline points="130,377.3 490,231.3 850,122.6" fill="none" stroke="#1e3a8a" stroke-width="3"/>
+  <g stroke="#1e3a8a" stroke-width="1.6">
+    <line x1="130" y1="374.5" x2="130" y2="380.1"/><line x1="125" y1="374.5" x2="135" y2="374.5"/><line x1="125" y1="380.1" x2="135" y2="380.1"/>
+    <line x1="490" y1="228.6" x2="490" y2="234"/><line x1="485" y1="228.6" x2="495" y2="228.6"/><line x1="485" y1="234" x2="495" y2="234"/>
+  </g>
+  <g fill="#1e3a8a"><circle cx="130" cy="377.3" r="6"/><circle cx="490" cy="231.3" r="6"/><circle cx="850" cy="122.6" r="6"/></g>
+  <g font-size="11.5" font-weight="700" fill="#1e3a8a">
+    <text x="146" y="382">39,52 %</text><text x="490" y="250" text-anchor="middle">70,25 %</text><text x="836" y="141" text-anchor="end">93,13 %</text>
+  </g>
+
+  <!-- linear probe SimCLR -->
+  <polyline points="130,223.0 490,190.6 850,176.1" fill="none" stroke="#0e7490" stroke-width="2.6" stroke-dasharray="8 5"/>
+  <g fill="#0e7490">
+    <circle cx="130" cy="223.0" r="5"/><circle cx="490" cy="190.6" r="5"/><circle cx="850" cy="176.1" r="5"/>
+  </g>
+  <g font-size="11.5" font-weight="700" fill="#0e7490">
+    <text x="490" y="183" text-anchor="middle">78,83 %</text><text x="836" y="195" text-anchor="end">81,87 %</text>
+  </g>
+
+  <!-- fine-tuning SimCLR -->
+  <polyline points="130,222.5 490,172.1 850,120.6" fill="none" stroke="#15803d" stroke-width="3"/>
+  <g stroke="#15803d" stroke-width="1.6">
+    <line x1="130" y1="218.4" x2="130" y2="226.6"/><line x1="125" y1="218.4" x2="135" y2="218.4"/><line x1="125" y1="226.6" x2="135" y2="226.6"/>
+    <line x1="490" y1="170.4" x2="490" y2="173.8"/><line x1="485" y1="170.4" x2="495" y2="170.4"/><line x1="485" y1="173.8" x2="495" y2="173.8"/>
+  </g>
+  <g fill="#15803d"><circle cx="130" cy="222.5" r="6"/><circle cx="490" cy="172.1" r="6"/><circle cx="850" cy="120.6" r="6"/></g>
+  <g font-size="11.5" font-weight="700" fill="#15803d">
+    <text x="490" y="162" text-anchor="middle">82,71 %</text><text x="836" y="112" text-anchor="end">93,56 %</text>
+  </g>
+
+  <!-- annotation 1 % : FT et LP confondus -->
+  <path d="M 150 222.7 L 214 206" stroke="#334155" stroke-width="1.2" fill="none"/>
+  <rect x="216" y="182" width="250" height="42" rx="6" fill="#f0fdfa" stroke="#0e7490" stroke-width="1.3"/>
+  <text x="226" y="199" font-size="11" font-weight="700" fill="#0f172a">72,10 % et 72,00 % — confondus</text>
+  <text x="226" y="215" font-size="10.5" fill="#334155">à 450 labels, dégeler l'encodeur n'apporte rien</text>
+
+  <!-- ecart a 1 % -->
+  <line x1="104" y1="222.5" x2="104" y2="377.3" stroke="#15803d" stroke-width="1.6"/>
+  <path d="M 100 227 L 104 222 L 108 227 M 100 372 L 104 377 L 108 372" stroke="#15803d" stroke-width="1.6" fill="none"/>
+  <rect x="150" y="286" width="112" height="26" rx="13" fill="#15803d"/>
+  <text x="206" y="304" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle">+32,6 points</text>
+
+  <rect x="434" y="200" width="112" height="24" rx="12" fill="#15803d"/>
+  <text x="490" y="217" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">+12,5 points</text>
+
+  <rect x="714" y="86" width="132" height="24" rx="12" fill="#64748b"/>
+  <text x="780" y="103" font-size="11.5" font-weight="700" fill="#ffffff" text-anchor="middle">parité (voir note)</text>
+
+  <!-- legende -->
+  <g font-size="11.5">
+    <line x1="130" y1="558" x2="164" y2="558" stroke="#15803d" stroke-width="3"/><circle cx="147" cy="558" r="5" fill="#15803d"/>
+    <text x="174" y="562" fill="#334155" font-weight="700">Fine-tuning SimCLR</text>
+    <text x="320" y="562" fill="#64748b">encodeur préentraîné sans labels puis entièrement réentraîné — ~11,2 M poids</text>
+
+    <line x1="130" y1="580" x2="164" y2="580" stroke="#0e7490" stroke-width="2.6" stroke-dasharray="8 5"/><circle cx="147" cy="580" r="4.5" fill="#0e7490"/>
+    <text x="174" y="584" fill="#334155" font-weight="700">Linear probe SimCLR</text>
+    <text x="320" y="584" fill="#64748b">même encodeur, gelé ; seule une couche Linear(512, 10) est entraînée — ~5 130 poids</text>
+
+    <line x1="130" y1="602" x2="164" y2="602" stroke="#1e3a8a" stroke-width="3"/><circle cx="147" cy="602" r="5" fill="#1e3a8a"/>
+    <text x="174" y="606" fill="#334155" font-weight="700">Supervisé from scratch</text>
+    <text x="320" y="606" fill="#64748b">mêmes réglages exactement, poids initialisés au hasard — la baseline concurrente</text>
+
+    <line x1="130" y1="624" x2="164" y2="624" stroke="#64748b" stroke-width="2" stroke-dasharray="3 4"/><rect x="143" y="620" width="8" height="8" fill="#64748b"/>
+    <text x="174" y="628" fill="#334155" font-weight="700">Encodeur aléatoire gelé</text>
+    <text x="320" y="628" fill="#64748b">contrôle diagnostic : isole ce qui vient du préentraînement et non de l'architecture</text>
+  </g>
+
+  <rect x="130" y="644" width="720" height="34" rx="5" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="142" y="659" font-size="10.5" fill="#334155">À 450 labels, le linear probe dépasse le supervisé from scratch de 32,5 points en entraînant 2 200 fois moins de poids.</text>
+  <text x="142" y="672" font-size="10.5" fill="#334155">À 45 000 labels il sature à 81,87 % : quand les labels abondent, il faut dégeler l'encodeur pour rivaliser.</text>
+</svg>
