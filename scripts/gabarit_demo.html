@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SimCLR CIFAR-10 — ce que le modele apprend sans labels</title>
+<style>
+  :root { --fond:#fff; --fond2:#f8fafc; --bord:#e2e8f0; --texte:#0f172a;
+          --doux:#64748b; --bleu:#1e3a8a; --vert:#15803d; --ambre:#b45309; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--fond2); color:var(--texte);
+         font-family:"Segoe UI",Helvetica,Arial,sans-serif; }
+  header { background:var(--fond); border-bottom:1px solid var(--bord); padding:18px 26px; }
+  h1 { margin:0 0 4px; font-size:20px; }
+  .sous { color:var(--doux); font-size:13px; margin:0; }
+  .avert { margin-top:10px; background:#f0fdf4; border:1px solid var(--vert);
+           border-radius:6px; padding:8px 12px; font-size:12.5px; color:#14532d; }
+  .grille { display:grid; grid-template-columns:minmax(0,1fr) 340px; gap:18px;
+            padding:18px 26px; align-items:start; }
+  @media (max-width:1150px){ .grille{ grid-template-columns:1fr; } }
+  .plein { padding:0 26px 26px; }
+  .carte { background:var(--fond); border:1px solid var(--bord); border-radius:8px; padding:16px; }
+  .carte h2 { margin:0 0 4px; font-size:13px; text-transform:uppercase;
+              letter-spacing:.05em; color:var(--doux); }
+  .carte h2 + .intro { margin:0 0 12px; font-size:12px; color:var(--doux); }
+  .controles { display:flex; gap:18px; flex-wrap:wrap; margin:12px 0 14px; }
+  .groupe { display:flex; align-items:center; gap:7px; flex-wrap:wrap; }
+  .groupe > span { font-size:10.5px; font-weight:700; color:var(--doux); letter-spacing:.05em; }
+  button.opt { border:1px solid var(--bord); background:var(--fond); color:var(--texte);
+       padding:5px 11px; border-radius:6px; cursor:pointer; font-size:12px; font-family:inherit; }
+  button.opt:hover { border-color:var(--bleu); }
+  button.opt.actif { background:var(--bleu); color:#fff; border-color:var(--bleu); }
+  button.opt small { opacity:.7; font-size:10.5px; margin-left:4px; }
+  .zone { display:flex; gap:12px; }
+  .colonne { flex:1; min-width:0; }
+  .titreCanvas { font-size:12px; font-weight:700; margin:0 0 5px; color:var(--texte); }
+  .titreCanvas em { font-weight:400; font-style:normal; color:var(--doux); }
+  canvas.nuage { width:100%; height:auto; display:block; border-radius:6px; cursor:grab;
+           background:#fdfdfe; border:1px solid var(--bord); touch-action:none; }
+  canvas.nuage:active { cursor:grabbing; }
+  .legende { display:flex; flex-wrap:wrap; gap:6px; margin-top:12px; }
+  .cl { display:flex; align-items:center; gap:6px; padding:4px 9px; border-radius:14px;
+        background:var(--fond2); border:1px solid var(--bord); cursor:pointer; font-size:12px;
+        user-select:none; }
+  .cl.eteint { opacity:.28; }
+  .pastille { width:11px; height:11px; border-radius:50%; }
+  .vignette { image-rendering:pixelated; border-radius:4px; border:1px solid var(--bord); }
+  #survol { position:fixed; pointer-events:none; display:none; z-index:30;
+            background:#0f172aee; color:#fff; padding:8px; border-radius:7px; font-size:12px; }
+  .voisins { display:grid; grid-template-columns:repeat(4,1fr); gap:7px; }
+  .voisin { text-align:center; font-size:10px; color:var(--doux); }
+  .stat { display:flex; justify-content:space-between; padding:6px 0;
+          border-bottom:1px dashed var(--bord); font-size:12.5px; }
+  .stat b { font-variant-numeric:tabular-nums; }
+  .barre { display:grid; grid-template-columns:56px 1fr 44px; align-items:center;
+           gap:6px; font-size:10.5px; margin-bottom:2px; }
+  .barre .piste { height:9px; background:var(--fond2); border-radius:5px; overflow:hidden; }
+  .barre .rempli { height:100%; border-radius:5px; }
+  .barre b { text-align:right; font-variant-numeric:tabular-nums; }
+  table.conf { border-collapse:collapse; font-size:9.5px; margin-top:4px; }
+  table.conf td, table.conf th { width:23px; height:20px; text-align:center; padding:0; }
+  table.conf th { color:var(--doux); font-weight:600; font-size:9px; }
+  .note { font-size:11.5px; color:var(--doux); line-height:1.45; margin-top:10px; }
+  .vide { color:var(--doux); font-size:12.5px; font-style:italic; }
+  .bandeauAug { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px; }
+  .bandeauAug canvas { cursor:pointer; }
+  .bandeauAug canvas.actif { outline:3px solid var(--bleu); outline-offset:1px; }
+  table.aug { border-collapse:collapse; width:100%; }
+  table.aug td, table.aug th { padding:7px 9px; border-bottom:1px solid var(--bord);
+                               vertical-align:middle; text-align:left; }
+  table.aug th { font-size:10.5px; text-transform:uppercase; letter-spacing:.04em;
+                 color:var(--doux); border-bottom:2px solid var(--bord); }
+  .paire { display:flex; gap:7px; align-items:center; }
+  .fleche { color:var(--doux); font-size:15px; }
+  .mesure { font-variant-numeric:tabular-nums; font-weight:700; }
+</style>
+</head>
+<body>
+<header>
+  <h1>SimCLR sur CIFAR-10 &mdash; ce que le modele apprend sans jamais voir un label</h1>
+  <p class="sous">__SOUS_TITRE__</p>
+  <div class="avert">
+    <b>Lecture honnete&nbsp;:</b> le preentrainement n'a recu aucune etiquette. Les classes reelles
+    servent uniquement a <b>colorer les points apres coup</b> et a mesurer. Une projection en deux
+    dimensions deforme les distances&nbsp;: l'ecart entre deux amas et la taille d'un amas ne veulent
+    rien dire. Seul le voisinage local est fiable. Les chiffres du rapport restent la preuve.
+  </div>
+</header>
+
+<div class="grille">
+  <div class="carte">
+    <h2>Projection des representations apprises</h2>
+    <p class="intro">Molette pour zoomer, glisser pour deplacer, double-clic pour reinitialiser. Clique un point pour l'inspecter.</p>
+    <div class="controles">
+      <div class="groupe"><span>ENCODEUR</span><div id="ctlEncodeur"></div></div>
+      <div class="groupe"><span>PROJECTION</span><div id="ctlMethode"></div></div>
+      <div class="groupe"><span>COULEUR</span><div id="ctlCouleur"></div></div>
+      <div class="groupe"><span>AFFICHAGE</span><div id="ctlMode"></div></div>
+      <div class="groupe" id="grpCompare" style="display:none"><span>COMPARER A</span><div id="ctlCompare"></div></div>
+      <div class="groupe" id="grpClassifieur"><span>CLASSIFIEUR</span><div id="ctlClassifieur"></div></div>
+    </div>
+    <div class="zone">
+      <div class="colonne">
+        <p class="titreCanvas" id="titreA"></p>
+        <canvas class="nuage" id="nuageA" width="960" height="700"></canvas>
+      </div>
+      <div class="colonne" id="colonneB" style="display:none">
+        <p class="titreCanvas" id="titreB"></p>
+        <canvas class="nuage" id="nuageB" width="960" height="700"></canvas>
+      </div>
+    </div>
+    <div class="legende" id="legende"></div>
+    <p class="note" id="explication"></p>
+  </div>
+
+  <div>
+    <div class="carte" style="margin-bottom:18px">
+      <h2>Image selectionnee</h2>
+      <div id="panneauSel"><p class="vide">Clique un point du nuage pour voir l'image, la prediction et ses plus proches voisins.</p></div>
+    </div>
+    <div class="carte" style="margin-bottom:18px">
+      <h2>Chiffres</h2>
+      <div id="stats"></div>
+      <p class="note" id="noteClassifieur"></p>
+    </div>
+    <div class="carte">
+      <h2>Matrice de confusion</h2>
+      <div id="confusion"></div>
+      <p class="note">Ligne = classe reelle, colonne = classe predite, sur les 10&nbsp;000 images de test.
+      Les cases rouges hors diagonale sont les confusions du modele.</p>
+    </div>
+  </div>
+</div>
+
+<div class="plein">
+  <div class="carte">
+    <h2>Pourquoi les augmentations de couleur sont indispensables</h2>
+    <p class="intro">SimCLR fabrique deux vues deformees de la meme image et demande au reseau de les reconnaitre comme une paire.
+    Choisis une image, puis compare les paires produites par chaque configuration de l'ablation.</p>
+    <div class="bandeauAug" id="bandeauAug"></div>
+    <div style="margin-bottom:12px"><button class="opt" id="btnTirage">Nouveau tirage aleatoire</button></div>
+    <table class="aug">
+      <thead><tr>
+        <th style="width:210px">Configuration</th>
+        <th style="width:200px">Les deux vues fournies au reseau</th>
+        <th style="width:150px">Accuracy obtenue</th>
+        <th>Ce qui se passe</th>
+      </tr></thead>
+      <tbody id="corpsAug"></tbody>
+    </table>
+    <p class="note">Ces vues sont tirees au hasard a chaque image et a chaque epoque&nbsp;: le reseau ne voit jamais deux fois
+    exactement la meme paire. C'est ce qui l'empeche d'apprendre par coeur.</p>
+  </div>
+</div>
+
+<div id="survol"></div>
+
+<script>
+const D = __DONNEES__;
+const SPRITE = new Image();  SPRITE.src = "data:image/png;base64,__SPRITE__";
+const SPRITE_AUG = new Image(); SPRITE_AUG.src = "data:image/png;base64,__SPRITE_AUG__";
+
+/* Dix teintes volontairement eloignees les unes des autres : avec dix classes
+   sur un meme nuage, deux couleurs voisines rendent la figure illisible. */
+const COULEURS = ["#e6194b","#3cb44b","#4363d8","#f58231","#911eb4",
+                  "#008080","#f032e6","#808000","#000075","#9a6324"];
+const REFERENCE = "complet";
+
+let encodeur    = D.encodeurs.some(e => e.cle === REFERENCE) ? REFERENCE : D.encodeurs[0].cle;
+let comparaison = D.encodeurs.some(e => e.cle === "aleatoire") ? "aleatoire" : D.encodeurs[0].cle;
+let methode     = D.methodes[0];
+let classifieur = D.classifieurs[0].cle;
+let couleur     = "reelle";
+let mode        = "simple";
+let masquees    = new Set();
+let selection   = null;
+let imageAug    = 0;
+let tirage      = 0;
+
+const vue = {k: 1, dx: 0, dy: 0};
+const toiles = {};
+
+const survol = document.getElementById("survol");
+const infoEnc = c => D.encodeurs.find(e => e.cle === c);
+const infoCla = () => D.classifieurs.find(c => c.cle === classifieur);
+const pred = () => D.predictions[classifieur];
+
+/* ---------- petits utilitaires ---------- */
+function boutons(hote, options, actuel, auClic) {
+  hote.innerHTML = "";
+  options.forEach(o => {
+    const b = document.createElement("button");
+    b.className = "opt" + (o.valeur === actuel ? " actif" : "");
+    b.innerHTML = o.libelle + (o.detail ? "<small>" + o.detail + "</small>" : "");
+    b.onclick = () => auClic(o.valeur);
+    hote.appendChild(b);
+  });
+}
+
+function tuile(sprite, meta, indice, taille, classe) {
+  const c = document.createElement("canvas");
+  c.width = taille; c.height = taille;
+  c.className = classe || "vignette";
+  const g = c.getContext("2d");
+  g.imageSmoothingEnabled = false;
+  g.drawImage(sprite, (indice % meta.cols) * meta.taille, Math.floor(indice / meta.cols) * meta.taille,
+              meta.taille, meta.taille, 0, 0, taille, taille);
+  return c;
+}
+const vignette = (i, t) => tuile(SPRITE, D.sprite, i, t);
+const vignetteAug = (i, t, cl) => tuile(SPRITE_AUG, D.sprite_aug, i, t, cl);
+
+/* ---------- le nuage ---------- */
+function ecran(proj, i, L, H) {
+  const m = 26;
+  return [m + proj[i][0] * (L - 2 * m) * vue.k + vue.dx,
+          m + proj[i][1] * (H - 2 * m) * vue.k + vue.dy];
+}
+
+function dessinerUn(cle) {
+  const t = toiles[cle];
+  if (!t) return;
+  const proj = D.projections[t.encodeur + "_" + methode];
+  const p = pred(), L = t.cv.width, H = t.cv.height;
+  t.ctx.clearRect(0, 0, L, H);
+  t.points = [];
+  for (let i = 0; i < D.n; i++) {
+    const cls = D.labels[i];
+    if (masquees.has(cls)) continue;
+    const [x, y] = ecran(proj, i, L, H);
+    if (x < -12 || x > L + 12 || y < -12 || y > H + 12) continue;
+    t.points.push({i, x, y});
+    let c = COULEURS[cls], r = 3.1, a = .82;
+    if (couleur === "erreurs") {
+      const faux = p[i] !== cls;
+      c = faux ? "#dc2626" : "#cbd5e1";
+      r = faux ? 3.6 : 2.2;
+      a = faux ? .92 : .45;
+    }
+    t.ctx.globalAlpha = a; t.ctx.fillStyle = c;
+    t.ctx.beginPath(); t.ctx.arc(x, y, r * Math.min(vue.k, 2.2), 0, 6.2832); t.ctx.fill();
+  }
+  t.ctx.globalAlpha = 1;
+  if (selection !== null) {
+    const s = t.points.find(q => q.i === selection);
+    if (s) {
+      (D.voisins[t.encodeur] || [])[selection]?.forEach(j => {
+        const q = t.points.find(z => z.i === j);
+        if (!q) return;
+        t.ctx.strokeStyle = "#0f172a55"; t.ctx.lineWidth = 1.1;
+        t.ctx.beginPath(); t.ctx.moveTo(s.x, s.y); t.ctx.lineTo(q.x, q.y); t.ctx.stroke();
+      });
+      t.ctx.strokeStyle = "#0f172a"; t.ctx.lineWidth = 2.4;
+      t.ctx.beginPath(); t.ctx.arc(s.x, s.y, 9, 0, 6.2832); t.ctx.stroke();
+    }
+  }
+}
+
+function dessiner() { Object.keys(toiles).forEach(dessinerUn); }
+
+function libelleCanvas(cle) {
+  const e = infoEnc(cle);
+  return "<b>" + e.libelle + "</b> &mdash; <em>" + e.composantes
+    + (e.accuracy != null ? " &middot; evaluation lineaire " + (e.accuracy * 100).toFixed(1) + " %" : "")
+    + "</em>";
+}
+
+function brancher(cv, cle) {
+  const ctx = cv.getContext("2d");
+  toiles[cle] = {cv, ctx, encodeur: cle, points: []};
+  let glisse = false, depart = null, bouge = 0;
+
+  const coord = ev => {
+    const r = cv.getBoundingClientRect();
+    return [(ev.clientX - r.left) * cv.width / r.width, (ev.clientY - r.top) * cv.height / r.height];
+  };
+  const proche = (x, y) => {
+    let best = null, bd = 196;
+    for (const p of toiles[cle].points) {
+      const d = (p.x - x) ** 2 + (p.y - y) ** 2;
+      if (d < bd) { bd = d; best = p; }
+    }
+    return best;
+  };
+
+  cv.addEventListener("wheel", ev => {
+    ev.preventDefault();
+    const [mx, my] = coord(ev);
+    const f = ev.deltaY < 0 ? 1.18 : 1 / 1.18;
+    const nk = Math.min(14, Math.max(1, vue.k * f));
+    const reel = nk / vue.k;
+    vue.dx = mx - (mx - vue.dx) * reel;
+    vue.dy = my - (my - vue.dy) * reel;
+    vue.k = nk;
+    if (vue.k === 1) { vue.dx = 0; vue.dy = 0; }
+    dessiner();
+  }, {passive: false});
+
+  cv.addEventListener("mousedown", ev => { glisse = true; bouge = 0; depart = coord(ev); });
+  window.addEventListener("mouseup", () => { glisse = false; });
+
+  cv.addEventListener("mousemove", ev => {
+    const [x, y] = coord(ev);
+    if (glisse && depart) {
+      bouge += Math.abs(x - depart[0]) + Math.abs(y - depart[1]);
+      vue.dx += x - depart[0]; vue.dy += y - depart[1];
+      depart = [x, y]; survol.style.display = "none"; dessiner();
+      return;
+    }
+    const p = proche(x, y);
+    if (!p) { survol.style.display = "none"; return; }
+    const pr = pred(), juste = D.labels[p.i] === pr[p.i];
+    survol.innerHTML = "";
+    survol.appendChild(vignette(p.i, 96));
+    const t = document.createElement("div");
+    t.style.marginTop = "6px";
+    t.innerHTML = "reelle : <b>" + D.classes[D.labels[p.i]] + "</b><br>predite : <b style='color:"
+      + (juste ? "#4ade80" : "#f87171") + "'>" + D.classes[pr[p.i]] + "</b>";
+    survol.appendChild(t);
+    survol.style.display = "block";
+    survol.style.left = Math.min(ev.clientX + 16, window.innerWidth - 150) + "px";
+    survol.style.top = Math.min(ev.clientY + 16, window.innerHeight - 175) + "px";
+  });
+
+  cv.addEventListener("mouseleave", () => { survol.style.display = "none"; });
+  cv.addEventListener("click", ev => {
+    if (bouge > 5) return;
+    const p = proche(...coord(ev));
+    if (!p) return;
+    selection = p.i; panneauSelection(); dessiner();
+  });
+  cv.addEventListener("dblclick", () => { vue.k = 1; vue.dx = 0; vue.dy = 0; dessiner(); });
+}
+
+/* ---------- panneaux ---------- */
+function barresProbabilites(i) {
+  const probas = D.probabilites[classifieur][i];
+  const ordre = probas.map((p, c) => [p, c]).sort((a, b) => b[0] - a[0]).slice(0, 4);
+  const hote = document.createElement("div");
+  hote.style.margin = "10px 0 4px";
+  ordre.forEach(([p, c]) => {
+    const l = document.createElement("div");
+    l.className = "barre";
+    l.innerHTML = "<span>" + D.classes[c] + "</span>"
+      + '<span class="piste"><span class="rempli" style="width:' + (p * 100).toFixed(1)
+      + "%;background:" + (c === D.labels[i] ? "#15803d" : "#94a3b8") + '"></span></span>'
+      + "<b>" + (p * 100).toFixed(1) + "%</b>";
+    hote.appendChild(l);
+  });
+  return hote;
+}
+
+function panneauSelection() {
+  if (selection === null) return;
+  const p = pred(), panneau = document.getElementById("panneauSel");
+  panneau.innerHTML = "";
+  const haut = document.createElement("div");
+  haut.style.cssText = "display:flex;gap:12px;align-items:center";
+  haut.appendChild(vignette(selection, 84));
+  const info = document.createElement("div");
+  info.style.fontSize = "12.5px";
+  const juste = D.labels[selection] === p[selection];
+  info.innerHTML = "classe reelle<br><b>" + D.classes[D.labels[selection]]
+    + "</b><br><br>prediction<br><b style='color:" + (juste ? "#15803d" : "#dc2626") + "'>"
+    + D.classes[p[selection]] + "</b>";
+  haut.appendChild(info);
+  panneau.appendChild(haut);
+  panneau.appendChild(barresProbabilites(selection));
+
+  const voisins = (D.voisins[encodeur] || [])[selection] || [];
+  const titre = document.createElement("p");
+  titre.className = "note"; titre.style.marginTop = "8px";
+  titre.innerHTML = "<b>Les " + voisins.length + " images les plus proches dans l'espace de l'encodeur <i>"
+    + infoEnc(encodeur).libelle + "</i>.</b> Aucune etiquette n'a servi a les rapprocher.";
+  panneau.appendChild(titre);
+
+  const grille = document.createElement("div");
+  grille.className = "voisins";
+  let memes = 0;
+  voisins.forEach(j => {
+    const cell = document.createElement("div");
+    cell.className = "voisin";
+    cell.appendChild(vignette(j, 58));
+    const n = document.createElement("div");
+    const meme = D.labels[j] === D.labels[selection];
+    if (meme) memes++;
+    n.textContent = D.classes[D.labels[j]];
+    n.style.color = meme ? "#15803d" : "#dc2626";
+    n.style.fontWeight = meme ? "700" : "400";
+    cell.appendChild(n);
+    grille.appendChild(cell);
+  });
+  panneau.appendChild(grille);
+  const bilan = document.createElement("p");
+  bilan.className = "note";
+  bilan.innerHTML = "<b>" + memes + " voisins sur " + voisins.length
+    + "</b> partagent la classe reelle. Change d'encodeur pour voir ce chiffre s'effondrer.";
+  panneau.appendChild(bilan);
+}
+
+function construireStats() {
+  const s = document.getElementById("stats");
+  s.innerHTML = "";
+  [["Accuracy du classifieur", (infoCla().accuracy * 100).toFixed(2) + " %"]].concat(D.stats)
+    .forEach(([k, v]) => {
+      const d = document.createElement("div");
+      d.className = "stat";
+      d.innerHTML = "<span>" + k + "</span><b>" + v + "</b>";
+      s.appendChild(d);
+    });
+}
+
+function construireConfusion() {
+  const m = D.matrices[classifieur];
+  let max = 0; m.forEach(l => l.forEach(v => { if (v > max) max = v; }));
+  let h = '<table class="conf"><tr><th></th>';
+  D.classes.forEach(c => h += "<th>" + c.slice(0, 3) + "</th>");
+  h += "</tr>";
+  m.forEach((ligne, i) => {
+    h += "<tr><th>" + D.classes[i].slice(0, 3) + "</th>";
+    ligne.forEach((v, j) => {
+      const t = v / max;
+      const fond = i === j ? "rgba(21,128,61," + (.10 + .90 * t) + ")"
+                           : "rgba(220,38,38," + (.04 + .96 * t) + ")";
+      h += '<td style="background:' + fond + ';color:' + (t > .45 ? "#fff" : "#334155")
+        + '" title="' + D.classes[i] + " predit " + D.classes[j] + " : " + v + '">'
+        + (v || "") + "</td>";
+    });
+    h += "</tr>";
+  });
+  document.getElementById("confusion").innerHTML = h + "</table>";
+}
+
+function construireLegende() {
+  const l = document.getElementById("legende");
+  l.innerHTML = "";
+  D.classes.forEach((nom, i) => {
+    const d = document.createElement("div");
+    d.className = "cl" + (masquees.has(i) ? " eteint" : "");
+    d.innerHTML = '<span class="pastille" style="background:' + COULEURS[i] + '"></span>' + nom;
+    d.onclick = () => { masquees.has(i) ? masquees.delete(i) : masquees.add(i);
+                        construireLegende(); dessiner(); };
+    l.appendChild(d);
+  });
+}
+
+/* ---------- visualiseur d'augmentations ---------- */
+function construireAugmentations() {
+  const bandeau = document.getElementById("bandeauAug");
+  bandeau.innerHTML = "";
+  D.aug.images.forEach((_, i) => {
+    const c = vignetteAug(D.aug.index_original[i], 48, "vignette" + (i === imageAug ? " actif" : ""));
+    c.onclick = () => { imageAug = i; construireAugmentations(); };
+    bandeau.appendChild(c);
+  });
+
+  const corps = document.getElementById("corpsAug");
+  corps.innerHTML = "";
+  D.aug.configurations.forEach(cfg => {
+    const tr = document.createElement("tr");
+
+    const tdNom = document.createElement("td");
+    tdNom.innerHTML = "<b>" + cfg.libelle + "</b><br><span style='font-size:10.5px;color:#64748b'>"
+      + cfg.composantes + "</span>";
+    tr.appendChild(tdNom);
+
+    const tdVues = document.createElement("td");
+    const paire = document.createElement("div");
+    paire.className = "paire";
+    const base = D.aug.index_vues[imageAug][cfg.cle][tirage];
+    paire.appendChild(vignetteAug(base[0], 64));
+    const fl = document.createElement("span"); fl.className = "fleche"; fl.textContent = "+";
+    paire.appendChild(fl);
+    paire.appendChild(vignetteAug(base[1], 64));
+    tdVues.appendChild(paire);
+    tr.appendChild(tdVues);
+
+    const tdAcc = document.createElement("td");
+    const bon = cfg.accuracy >= 0.80;
+    tdAcc.innerHTML = "<span class='mesure' style='color:" + (bon ? "#15803d" : "#b45309") + "'>"
+      + (cfg.accuracy * 100).toFixed(2) + " %</span>"
+      + "<br><span style='font-size:10.5px;color:#64748b'>perte " + cfg.loss.toFixed(3)
+      + " &middot; top-1 " + (cfg.top1 * 100).toFixed(0) + " %</span>";
+    tr.appendChild(tdAcc);
+
+    const tdCom = document.createElement("td");
+    tdCom.style.fontSize = "11.5px";
+    tdCom.style.color = "#334155";
+    tdCom.textContent = cfg.commentaire;
+    tr.appendChild(tdCom);
+
+    corps.appendChild(tr);
+  });
+}
+
+/* ---------- assemblage ---------- */
+function construireControles() {
+  boutons(document.getElementById("ctlEncodeur"),
+    D.encodeurs.map(e => ({valeur: e.cle, libelle: e.libelle})),
+    encodeur, v => { encodeur = v; tout(); });
+
+  boutons(document.getElementById("ctlMethode"),
+    D.methodes.map(m => ({valeur: m, libelle: m.toUpperCase()})),
+    methode, v => { methode = v; tout(); });
+
+  boutons(document.getElementById("ctlCouleur"),
+    [{valeur:"reelle", libelle:"Classe reelle"}, {valeur:"erreurs", libelle:"Erreurs du modele"}],
+    couleur, v => { couleur = v; tout(); });
+
+  boutons(document.getElementById("ctlMode"),
+    [{valeur:"simple", libelle:"Un nuage"}, {valeur:"compare", libelle:"Cote a cote"}],
+    mode, v => { mode = v; tout(); });
+
+  const grpC = document.getElementById("grpCompare");
+  grpC.style.display = mode === "compare" ? "flex" : "none";
+  if (mode === "compare") {
+    boutons(document.getElementById("ctlCompare"),
+      D.encodeurs.filter(e => e.cle !== encodeur).map(e => ({valeur: e.cle, libelle: e.libelle})),
+      comparaison, v => { comparaison = v; tout(); });
+  }
+
+  const grpK = document.getElementById("grpClassifieur");
+  if (D.classifieurs.length < 2) grpK.style.display = "none";
+  else boutons(document.getElementById("ctlClassifieur"),
+    D.classifieurs.map(c => ({valeur: c.cle, libelle: c.court})),
+    classifieur, v => { classifieur = v; tout(); });
+
+  const e = infoEnc(encodeur);
+  document.getElementById("explication").innerHTML = e.explication
+    + " <b>Rappel&nbsp;:</b> les predictions et la matrice de confusion proviennent toujours du classifieur "
+    + "entraine sur l'encodeur complet, quel que soit l'encodeur affiche dans le nuage.";
+  document.getElementById("noteClassifieur").textContent =
+    "Classifieur affiche : " + infoCla().description;
+}
+
+function tout() {
+  if (comparaison === encodeur) {
+    comparaison = (D.encodeurs.find(e => e.cle !== encodeur) || D.encodeurs[0]).cle;
+  }
+  Object.keys(toiles).forEach(k => delete toiles[k]);
+  brancher(document.getElementById("nuageA"), encodeur);
+  document.getElementById("titreA").innerHTML = libelleCanvas(encodeur);
+  const colB = document.getElementById("colonneB");
+  if (mode === "compare") {
+    colB.style.display = "block";
+    brancher(document.getElementById("nuageB"), comparaison);
+    document.getElementById("titreB").innerHTML = libelleCanvas(comparaison);
+  } else {
+    colB.style.display = "none";
+  }
+  construireControles(); construireLegende(); construireStats(); construireConfusion();
+  construireAugmentations(); panneauSelection(); dessiner();
+}
+
+document.getElementById("btnTirage").onclick = () => {
+  tirage = (tirage + 1) % D.aug.nombre_tirages;
+  construireAugmentations();
+};
+
+let prets = 0;
+const demarrer = () => { if (++prets === 2) tout(); };
+SPRITE.onload = demarrer;
+SPRITE_AUG.onload = demarrer;
+</script>
+</body>
+</html>
