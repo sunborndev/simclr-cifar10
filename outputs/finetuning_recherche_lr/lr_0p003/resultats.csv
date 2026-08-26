@@ -1,0 +1,2 @@
+methode,fraction_labels,nombre_labels,seed,loss_train,accuracy_train,accuracy_evaluation,ensemble_evaluation,duree_secondes
+finetuning_simclr,0.1,4500,42,0.2644211917453342,0.9235555555555556,0.816,validation,216.93685739999637

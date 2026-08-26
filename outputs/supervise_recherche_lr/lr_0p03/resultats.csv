@@ -1,0 +1,2 @@
+methode,fraction_labels,nombre_labels,seed,loss_train,accuracy_train,accuracy_evaluation,ensemble_evaluation,duree_secondes
+supervise_from_scratch,0.1,4500,42,0.0028287668745550845,0.9997777777777778,0.7046,validation,185.1801848000032

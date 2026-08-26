@@ -1,0 +1,50 @@
+{
+  "configuration": {
+    "methode": "supervise_from_scratch",
+    "checkpoint_simclr": null,
+    "fractions": [
+      0.1
+    ],
+    "seeds": [
+      42
+    ],
+    "epochs": 100,
+    "batch_size": 256,
+    "learning_rate": 0.1,
+    "min_learning_rate": 0.0001,
+    "momentum": 0.9,
+    "weight_decay": 0.0005,
+    "mixed_precision": true,
+    "nombre_validation": 5000,
+    "seed_split": 7,
+    "evaluer_sur": "validation",
+    "nombre_train_total": 45000,
+    "nombre_evaluation": 5000,
+    "max_batches": null,
+    "augmentation_train": "RandomCrop(32, padding=4) + RandomHorizontalFlip"
+  },
+  "resultats": [
+    {
+      "methode": "supervise_from_scratch",
+      "fraction_labels": 0.1,
+      "nombre_labels": 4500,
+      "seed": 42,
+      "loss_train": 0.0037876075129542087,
+      "accuracy_train": 1.0,
+      "accuracy_evaluation": 0.6884,
+      "ensemble_evaluation": "validation",
+      "duree_secondes": 165.10271920001833
+    }
+  ],
+  "resume": [
+    {
+      "methode": "supervise_from_scratch",
+      "ensemble_evaluation": "validation",
+      "fraction_labels": 0.1,
+      "nombre_labels": 4500,
+      "nombre_seeds": 1,
+      "accuracy_moyenne": 0.6884,
+      "accuracy_ecart_type": 0.0
+    }
+  ]
+}
